@@ -1,0 +1,1409 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Website Security Report - CyberSafe Analyzer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #030914;
+            color: #e8f1ff;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 230px;
+            height: 100vh;
+
+            background: linear-gradient(
+                180deg,
+                #071426,
+                #030a15
+            );
+
+            border-right: 1px solid #15345a;
+
+            padding: 28px 16px;
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 0 10px 35px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            background: #062846;
+            border: 1px solid #078bd0;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 0 20px rgba(0, 174, 255, 0.25);
+        }
+
+        .brand-text {
+            font-size: 19px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .brand-text span {
+            color: #13bfff;
+            font-size: 13px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding: 14px 15px;
+
+            color: #9eafc9;
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: #ffffff;
+
+            background: linear-gradient(
+                90deg,
+                #0756a5,
+                #063b72
+            );
+
+            border: 1px solid #087bc6;
+
+            box-shadow:
+                0 0 20px rgba(0, 132, 255, 0.15);
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .sidebar-card {
+            margin-top: auto;
+
+            padding: 20px 15px;
+
+            border: 1px solid #164b7d;
+            border-radius: 14px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #092b56,
+                    #061222
+                );
+
+            text-align: center;
+        }
+
+        .sidebar-card .shield {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-card p {
+            color: #8295b3;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 230px;
+            min-height: 100vh;
+
+            padding: 38px 42px;
+
+            background:
+                radial-gradient(
+                    circle at 85% 5%,
+                    rgba(0, 92, 180, 0.16),
+                    transparent 30%
+                ),
+                #030914;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            margin-bottom: 30px;
+        }
+
+        .title-area h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .title-area h1 span {
+            color: #10bdf3;
+        }
+
+        .scanned-url {
+            color: #8fa4c3;
+            font-size: 15px;
+        }
+
+        .scanned-url strong {
+            color: #12c6ff;
+        }
+
+        .scan-button {
+            padding: 12px 20px;
+
+            color: #ffffff;
+            text-decoration: none;
+
+            border: 1px solid #079bd8;
+            border-radius: 9px;
+
+            background: #06213d;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .scan-button:hover {
+            background: #07345c;
+        }
+
+
+        /* ================= SECURITY SCORE ================= */
+
+        .score-card {
+            display: grid;
+            grid-template-columns: 220px 1fr 300px;
+
+            align-items: center;
+
+            padding: 28px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #16365c;
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a192e,
+                    #06101f
+                );
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .score-title {
+            color: #9eafc9;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            background:
+                conic-gradient(
+                    #19dc65 75%,
+                    #243850 75%
+                );
+        }
+
+        .score-circle::before {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            background: #071426;
+
+            border-radius: 50%;
+        }
+
+        .score-number {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+        }
+
+        .score-number strong {
+            display: block;
+
+            font-size: 35px;
+            color: #ffffff;
+        }
+
+        .score-number span {
+            color: #8194b1;
+            font-size: 12px;
+        }
+
+        .score-message h2 {
+            color: #21d968;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .score-message p {
+            color: #9aaac2;
+            max-width: 430px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .shield-large {
+            text-align: center;
+            font-size: 80px;
+
+            filter:
+                drop-shadow(
+                    0 0 20px
+                    rgba(0, 195, 255, 0.4)
+                );
+        }
+
+        .score-details {
+            border-left: 1px solid #1b3554;
+            padding-left: 25px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #162b45;
+
+            color: #8294ae;
+            font-size: 13px;
+        }
+
+        .detail-row strong {
+            color: #e8f1ff;
+        }
+
+        .risk-low {
+            color: #1de467 !important;
+
+            background: rgba(22, 203, 90, 0.12);
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+        }
+
+
+        /* ================= GRID ================= */
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                1.25fr
+                0.75fr;
+
+            gap: 22px;
+
+            margin-bottom: 22px;
+        }
+
+        .card {
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a192e,
+                    #06101f
+                );
+
+            border: 1px solid #16365c;
+            border-radius: 14px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            color: #10c1ff;
+            font-size: 21px;
+        }
+
+
+        /* ================= INFORMATION ================= */
+
+        .info-list {
+            border: 1px solid #173452;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+
+            padding: 13px 15px;
+
+            border-bottom: 1px solid #17304c;
+
+            font-size: 13px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #7f93b0;
+        }
+
+        .info-value {
+            color: #e8f1ff;
+            word-break: break-word;
+        }
+
+        .info-value.highlight {
+            color: #10c6ff;
+        }
+
+
+        /* ================= HTTPS ================= */
+
+        .https-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            background: rgba(17, 211, 91, 0.06);
+
+            border: 1px solid rgba(27, 218, 102, 0.25);
+
+            border-radius: 10px;
+        }
+
+        .https-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: rgba(17, 211, 91, 0.12);
+
+            font-size: 28px;
+        }
+
+        .https-status h3 {
+            color: #20e36b;
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .https-status p {
+            color: #8195b1;
+            font-size: 12px;
+        }
+
+        .status-good {
+            color: #20df68;
+        }
+
+        .status-warning {
+            color: #ffc928;
+        }
+
+
+        /* ================= SERVER ================= */
+
+        .server-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .server-item {
+            padding: 15px;
+
+            background: #071526;
+
+            border: 1px solid #153453;
+            border-radius: 9px;
+        }
+
+        .server-item span {
+            display: block;
+
+            color: #7186a5;
+            font-size: 11px;
+
+            margin-bottom: 6px;
+        }
+
+        .server-item strong {
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+
+        /* ================= HEADERS ================= */
+
+        .headers-card {
+            margin-bottom: 22px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 12px 5px;
+
+            border-bottom: 1px solid #162f4b;
+
+            font-size: 13px;
+        }
+
+        .header-name {
+            color: #c8d4e6;
+        }
+
+        .present {
+            color: #20df68;
+        }
+
+        .missing {
+            color: #ffc928;
+        }
+
+
+        /* ================= COOKIES / REDIRECTS ================= */
+
+        .small-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .empty-message {
+            padding: 18px;
+
+            background: #071526;
+
+            border-radius: 9px;
+
+            color: #8195b1;
+
+            font-size: 13px;
+        }
+
+        .cookie {
+            padding: 13px;
+
+            margin-bottom: 9px;
+
+            background: #071526;
+
+            border: 1px solid #153453;
+
+            border-radius: 9px;
+        }
+
+        .cookie strong {
+            color: #10c6ff;
+        }
+
+        .redirect {
+            padding: 12px;
+
+            border-bottom: 1px solid #17304c;
+
+            color: #a9b8cc;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= ISSUES ================= */
+
+        .issues {
+            margin-top: 22px;
+        }
+
+        .issue {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 15px;
+
+            margin-bottom: 10px;
+
+            border-radius: 9px;
+
+            background: rgba(255, 199, 40, 0.06);
+
+            border: 1px solid rgba(255, 199, 40, 0.18);
+        }
+
+        .issue-icon {
+            font-size: 20px;
+        }
+
+        .issue span {
+            color: #ffc928;
+            font-size: 13px;
+        }
+
+        .no-issues {
+            padding: 15px;
+
+            border-radius: 9px;
+
+            background: rgba(25, 219, 102, 0.06);
+
+            border: 1px solid rgba(25, 219, 102, 0.2);
+
+            color: #20df68;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            margin-top: 35px;
+
+            padding: 22px 0;
+
+            border-top: 1px solid #15304d;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #667b98;
+
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #10c6ff;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 30px;
+            }
+
+            .score-card {
+                grid-template-columns: 170px 1fr;
+            }
+
+            .score-details {
+                grid-column: 1 / -1;
+                border-left: none;
+                border-top: 1px solid #1b3554;
+                margin-top: 25px;
+                padding: 15px 0 0;
+            }
+
+            .shield-large {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .brand {
+                justify-content: center;
+            }
+
+            .menu {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .sidebar-card {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px 15px;
+            }
+
+            .grid,
+            .small-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+
+        @media (max-width: 550px) {
+
+            .score-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                justify-items: center;
+            }
+
+            .score-message {
+                margin-top: 20px;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .server-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div class="brand-text">
+                CyberSafe<br>
+                <span>Analyzer</span>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/">
+                <span class="menu-icon">⌂</span>
+                Home
+            </a>
+
+            <a href="/" class="active">
+                <span class="menu-icon">🌐</span>
+                Website Scanner
+            </a>
+
+            <a href="/">
+                <span class="menu-icon">📄</span>
+                File Scanner
+            </a>
+
+            <a href="/">
+                <span class="menu-icon">📊</span>
+                Reports
+            </a>
+
+            <a href="/">
+                <span class="menu-icon">ⓘ</span>
+                About Us
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-card">
+
+            <div class="shield">
+                🛡️
+            </div>
+
+            <h3>Stay Secure, Stay Safe</h3>
+
+            <p>
+                CyberSafe Analyzer helps you
+                identify security risks and
+                protect what matters most.
+            </p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <div class="top-section">
+
+            <div class="title-area">
+
+                <h1>
+                    Website Security <span>Report</span>
+                </h1>
+
+                <p class="scanned-url">
+                    Scanned URL:
+                    <strong>{{ result.url }}</strong>
+                </p>
+
+            </div>
+
+            <a href="/" class="scan-button">
+                ← Scan Another
+            </a>
+
+        </div>
+
+
+        <!-- ================= SCORE ================= -->
+
+        <section class="score-card">
+
+            <div>
+
+                <p class="score-title">
+                    Overall Security Score
+                </p>
+
+                <div class="score-circle">
+
+                    <div class="score-number">
+
+                        <strong>{{ result.score }}</strong>
+
+                        <span>/100</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="score-message">
+
+                {% if result.score >= 80 %}
+
+                    <h2>Good Security</h2>
+
+                    <p>
+                        This website has a good security
+                        configuration. No critical security
+                        issues were found during this scan.
+                    </p>
+
+                {% elif result.score >= 50 %}
+
+                    <h2 style="color:#ffc928;">
+                        Moderate Security
+                    </h2>
+
+                    <p>
+                        Some security improvements are
+                        recommended for this website.
+                    </p>
+
+                {% else %}
+
+                    <h2 style="color:#ff5555;">
+                        Security Attention Required
+                    </h2>
+
+                    <p>
+                        Several security issues were detected.
+                        Review the recommendations below.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="score-details">
+
+                <div class="detail-row">
+
+                    <span>⚑ Risk Level</span>
+
+                    <strong class="risk-low">
+                        {{ result.risk }}
+                    </strong>
+
+                </div>
+
+                <div class="detail-row">
+
+                    <span>🌐 HTTP Status</span>
+
+                    <strong>
+                        {{ result.status }}
+                    </strong>
+
+                </div>
+
+                <div class="detail-row">
+
+                    <span>🔐 HTTPS</span>
+
+                    <strong>
+                        {% if result.https %}
+                            <span class="status-good">Enabled</span>
+                        {% else %}
+                            <span class="status-warning">Disabled</span>
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BASIC + HTTPS ================= -->
+
+        <div class="grid">
+
+
+            <!-- BASIC INFORMATION -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="card-icon">🌐</span>
+                    Basic Information
+                </h2>
+
+                <div class="info-list">
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            URL
+                        </span>
+
+                        <span class="info-value highlight">
+                            {{ result.url }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Domain
+                        </span>
+
+                        <span class="info-value">
+                            {{ result.domain }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            IP Address
+                        </span>
+
+                        <span class="info-value">
+                            {{ result.ip_address }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            HTTP Status
+                        </span>
+
+                        <span class="info-value">
+                            {{ result.status_code }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Final URL
+                        </span>
+
+                        <span class="info-value highlight">
+                            {{ result.final_url }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- HTTPS -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="card-icon">🔒</span>
+                    HTTPS / SSL
+                </h2>
+
+
+                <div class="https-status">
+
+                    <div class="https-icon">
+                        {% if result.https %}
+                            🛡️
+                        {% else %}
+                            ⚠️
+                        {% endif %}
+                    </div>
+
+                    <div>
+
+                        {% if result.https %}
+
+                            <h3>
+                                HTTPS is Enabled
+                            </h3>
+
+                            <p>
+                                Your connection to this website
+                                is secure and encrypted.
+                            </p>
+
+                        {% else %}
+
+                            <h3 class="status-warning">
+                                HTTPS is Not Enabled
+                            </h3>
+
+                            <p>
+                                This website is not using HTTPS.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>Connection</span>
+
+                    <strong>
+                        {% if result.https %}
+                            <span class="status-good">Secure</span>
+                        {% else %}
+                            <span class="status-warning">Not Secure</span>
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>Final URL</span>
+
+                    <strong>
+                        {{ result.final_url }}
+                    </strong>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- ================= SERVER + HEADERS ================= -->
+
+        <div class="grid">
+
+
+            <!-- SERVER INFORMATION -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="card-icon">🖥️</span>
+                    Server Information
+                </h2>
+
+                <div class="server-grid">
+
+                    <div class="server-item">
+
+                        <span>Server</span>
+
+                        <strong>
+                            {{ result.server }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="server-item">
+
+                        <span>Content Type</span>
+
+                        <strong>
+                            {{ result.content_type }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="server-item">
+
+                        <span>Page Size</span>
+
+                        <strong>
+                            {{ result.page_size }} bytes
+                        </strong>
+
+                    </div>
+
+
+                    <div class="server-item">
+
+                        <span>Domain</span>
+
+                        <strong>
+                            {{ result.domain }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECURITY HEADERS -->
+
+            <section class="card headers-card">
+
+                <h2>
+                    <span class="card-icon">🛡️</span>
+                    Security Headers
+                </h2>
+
+                {% for name, value in result.security_headers.items() %}
+
+                    <div class="header-row">
+
+                        <span class="header-name">
+                            {{ name }}
+                        </span>
+
+                        {% if value %}
+
+                            <span class="present">
+                                ✓ Present
+                            </span>
+
+                        {% else %}
+
+                            <span class="missing">
+                                ⚠ Missing
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+        </div>
+
+
+        <!-- ================= COOKIES + REDIRECTS ================= -->
+
+        <div class="small-grid">
+
+
+            <!-- COOKIES -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="card-icon">🍪</span>
+                    Cookies
+                </h2>
+
+                {% if result.cookies %}
+
+                    {% for cookie in result.cookies %}
+
+                        <div class="cookie">
+
+                            <strong>
+                                {{ cookie.name }}
+                            </strong>
+
+                            <br><br>
+
+                            Secure:
+                            {{ cookie.secure }}
+
+                            &nbsp; | &nbsp;
+
+                            HttpOnly:
+                            {{ cookie.httponly }}
+
+                            &nbsp; | &nbsp;
+
+                            SameSite:
+                            {{ cookie.samesite }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-message">
+                        ✓ No cookies detected.
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- REDIRECTS -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="card-icon">↪</span>
+                    Redirects
+                </h2>
+
+                {% if result.redirects %}
+
+                    {% for redirect in result.redirects %}
+
+                        <div class="redirect">
+
+                            {{ redirect.status }}
+
+                            →
+
+                            {{ redirect.url }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-message">
+                        ✓ No redirects detected.
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        </div>
+
+
+        <!-- ================= ISSUES ================= -->
+
+        <section class="card issues">
+
+            <h2>
+                <span class="card-icon">💡</span>
+                Security Recommendations
+            </h2>
+
+
+            {% if result.missing_headers %}
+
+                {% for header in result.missing_headers %}
+
+                    <div class="issue">
+
+                        <div class="issue-icon">
+                            ⚠️
+                        </div>
+
+                        <span>
+                            Consider adding
+                            <strong>{{ header }}</strong>
+                            to improve website security.
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="no-issues">
+                    ✓ Great! No missing security headers
+                    were detected.
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <span>
+                🛡️ <strong>CyberSafe Analyzer</strong>
+            </span>
+
+            <span>
+                © 2026 CyberSafe Analyzer
+            </span>
+
+            <span>
+                Scan. Analyze. Secure.
+            </span>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
