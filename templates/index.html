@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSafe Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🛡️ CyberSafe Analyzer</div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="#website-scanner">Website Scanner</a>
+            <a href="#file-scanner">File Scanner</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+
+            <div class="hero-text">
+                <p class="small-title">
+                    CYBERSECURITY ANALYSIS PLATFORM
+                </p>
+
+                <h1>
+                    SCAN SMARTER.<br>
+                    STAY SAFER.
+                </h1>
+
+                <p>
+                    Analyze websites and files with CyberSafe Analyzer
+                    and get clear security information.
+                </p>
+            </div>
+
+            <div class="hero-image">
+                <img
+                    src="{{ url_for('static', filename='images/hero-image.png') }}"
+                    alt="CyberSafe Analyzer">
+            </div>
+
+        </section>
+
+
+        <!-- SCANNERS -->
+        <section class="scanner-section">
+
+            <!-- WEBSITE SCANNER -->
+            <div class="scanner-card" id="website-scanner">
+
+                <div class="icon">🌐</div>
+
+                <h2>Website Scanner</h2>
+
+                <p>
+                    Analyze a website URL for security information.
+                </p>
+
+                <form action="{{ url_for('scan') }}" method="POST">
+
+                    <input
+                        type="text"
+                        name="url"
+                        placeholder="Enter website URL"
+                        required>
+
+                    <button type="submit">
+                        Scan Website
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- FILE SCANNER -->
+            <div class="scanner-card" id="file-scanner">
+
+                <div class="icon">📁</div>
+
+                <h2>File Scanner</h2>
+
+                <p>
+                    Upload a file for security analysis.
+                </p>
+
+                <form
+                    action="{{ url_for('scan_file') }}"
+                    method="POST"
+                    enctype="multipart/form-data">
+
+                    <input
+                        type="file"
+                        name="file"
+                        required>
+
+                    <button type="submit">
+                        Scan File
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+        <section class="features">
+
+            <div>
+                <span>⚡</span>
+                <h3>Fast Analysis</h3>
+                <p>
+                    Quick security analysis.
+                </p>
+            </div>
+
+            <div>
+                <span>🔍</span>
+                <h3>Attack Analysis</h3>
+                <p>
+                    Identify possible security issues.
+                </p>
+            </div>
+
+            <div>
+                <span>📊</span>
+                <h3>Detailed Reports</h3>
+                <p>
+                    Easy-to-understand results.
+                </p>
+            </div>
+
+            <div>
+                <span>🔒</span>
+                <h3>Privacy Protection</h3>
+                <p>
+                    Designed with privacy in mind.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            © 2026 CyberSafe Analyzer
+        </p>
+    </footer>
+
+</body>
+</html>
