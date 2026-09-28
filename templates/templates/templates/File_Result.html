@@ -1,0 +1,865 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>File Security Report - CyberSafe Analyzer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #030914;
+            color: #e8f1ff;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 230px;
+            height: 100vh;
+
+            padding: 28px 16px;
+
+            background: linear-gradient(
+                180deg,
+                #071426,
+                #030a15
+            );
+
+            border-right: 1px solid #15345a;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 35px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            background: #062846;
+            border: 1px solid #078bd0;
+            border-radius: 12px;
+
+            box-shadow: 0 0 20px rgba(0, 174, 255, .25);
+        }
+
+        .brand-text {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .brand-text span {
+            color: #13bfff;
+            font-size: 13px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            padding: 14px 15px;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            color: #9eafc9;
+            text-decoration: none;
+
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: white;
+
+            background: linear-gradient(
+                90deg,
+                #0756a5,
+                #063b72
+            );
+
+            border: 1px solid #087bc6;
+        }
+
+        .sidebar-card {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 25px;
+
+            padding: 20px 15px;
+
+            text-align: center;
+
+            background: #061222;
+            border: 1px solid #164b7d;
+            border-radius: 14px;
+        }
+
+        .sidebar-card .shield {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-card p {
+            color: #8295b3;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+
+        /* MAIN */
+
+        .main {
+            margin-left: 230px;
+            padding: 40px;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 85% 5%,
+                    rgba(0, 92, 180, .16),
+                    transparent 30%
+                ),
+                #030914;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+        .top h1 {
+            font-size: 35px;
+        }
+
+        .top h1 span {
+            color: #10bdf3;
+        }
+
+        .subtitle {
+            color: #8fa4c3;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .back {
+            padding: 12px 18px;
+
+            color: white;
+            text-decoration: none;
+
+            background: #06213d;
+
+            border: 1px solid #079bd8;
+            border-radius: 9px;
+
+            font-size: 13px;
+        }
+
+
+        /* FILE HEADER */
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            padding: 25px;
+            margin-bottom: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a192e,
+                    #06101f
+                );
+
+            border: 1px solid #16365c;
+            border-radius: 14px;
+        }
+
+        .file-icon {
+            width: 80px;
+            height: 80px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 42px;
+
+            background: #062846;
+            border: 1px solid #087bc6;
+
+            border-radius: 16px;
+        }
+
+        .file-info h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .file-info p {
+            color: #8fa4c3;
+            font-size: 13px;
+        }
+
+        .safe-badge {
+            margin-left: auto;
+
+            padding: 10px 18px;
+
+            border-radius: 25px;
+
+            background: rgba(25, 219, 102, .1);
+            border: 1px solid rgba(25, 219, 102, .3);
+
+            color: #20df68;
+
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+
+        /* CARDS */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            padding: 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a192e,
+                    #06101f
+                );
+
+            border: 1px solid #16365c;
+            border-radius: 14px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .icon {
+            color: #10c1ff;
+            margin-right: 8px;
+        }
+
+
+        /* RESULT */
+
+        .result-box {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .result-icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .result-box h2 {
+            color: #20df68;
+            font-size: 25px;
+        }
+
+        .result-box p {
+            color: #91a4bf;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+
+        /* DETAILS */
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 14px 5px;
+
+            border-bottom: 1px solid #17304c;
+
+            font-size: 13px;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #8195b1;
+        }
+
+        .value {
+            color: #e8f1ff;
+            max-width: 60%;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .green {
+            color: #20df68;
+        }
+
+        .yellow {
+            color: #ffc928;
+        }
+
+        .red {
+            color: #ff5555;
+        }
+
+
+        /* HASH */
+
+        .hash {
+            padding: 15px;
+
+            margin-top: 10px;
+
+            background: #071526;
+
+            border: 1px solid #153453;
+
+            border-radius: 9px;
+
+            color: #10c6ff;
+
+            font-size: 12px;
+
+            word-break: break-all;
+        }
+
+
+        /* SCAN SUMMARY */
+
+        .summary {
+            grid-column: 1 / -1;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .summary-item {
+            padding: 20px;
+
+            text-align: center;
+
+            background: #071526;
+
+            border: 1px solid #153453;
+
+            border-radius: 10px;
+        }
+
+        .summary-item .number {
+            font-size: 30px;
+            font-weight: bold;
+
+            color: #10c6ff;
+
+            margin-bottom: 8px;
+        }
+
+        .summary-item p {
+            color: #8195b1;
+            font-size: 12px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 35px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #15304d;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #667b98;
+
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #10c6ff;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar-card {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px 15px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-column: auto;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .file-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .safe-badge {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div class="brand-text">
+                CyberSafe<br>
+                <span>Analyzer</span>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/">
+                🌐 Website Scanner
+            </a>
+
+            <a href="/" class="active">
+                📁 File Scanner
+            </a>
+
+            <a href="/">
+                📊 Reports
+            </a>
+
+            <a href="/">
+                ℹ️ About Us
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-card">
+
+            <div class="shield">
+                🛡️
+            </div>
+
+            <h3>Stay Secure, Stay Safe</h3>
+
+            <p>
+                CyberSafe Analyzer helps identify
+                potential security risks.
+            </p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="top">
+
+            <div>
+
+                <h1>
+                    File Security <span>Report</span>
+                </h1>
+
+                <p class="subtitle">
+                    Detailed analysis of your uploaded file
+                </p>
+
+            </div>
+
+            <a href="/" class="back">
+                ← Scan Another File
+            </a>
+
+        </div>
+
+
+        <!-- FILE -->
+
+        <section class="file-card">
+
+            <div class="file-icon">
+                📄
+            </div>
+
+            <div class="file-info">
+
+                <h2>
+                    {{ filename }}
+                </h2>
+
+                <p>
+                    File security analysis completed
+                </p>
+
+            </div>
+
+            <div class="safe-badge">
+                ✓ Scan Complete
+            </div>
+
+        </section>
+
+
+        <!-- RESULTS -->
+
+        <div class="grid">
+
+
+            <!-- MAIN RESULT -->
+
+            <section class="card">
+
+                <div class="result-box">
+
+                    <div class="result-icon">
+                        {% if result %}
+                            🛡️
+                        {% else %}
+                            🔍
+                        {% endif %}
+                    </div>
+
+                    <h2>
+                        Analysis Complete
+                    </h2>
+
+                    <p>
+                        Your file has been successfully
+                        analyzed by CyberSafe Analyzer.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- FILE DETAILS -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="icon">📋</span>
+                    File Details
+                </h2>
+
+                <div class="row">
+
+                    <span class="label">
+                        File Name
+                    </span>
+
+                    <span class="value">
+                        {{ filename }}
+                    </span>
+
+                </div>
+
+
+                {% if filesize %}
+
+                <div class="row">
+
+                    <span class="label">
+                        File Size
+                    </span>
+
+                    <span class="value">
+                        {{ filesize }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if file_type %}
+
+                <div class="row">
+
+                    <span class="label">
+                        File Type
+                    </span>
+
+                    <span class="value">
+                        {{ file_type }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="row">
+
+                    <span class="label">
+                        Scan Status
+                    </span>
+
+                    <span class="value green">
+                        Completed
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- HASH -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="icon">🔐</span>
+                    File Fingerprint
+                </h2>
+
+                {% if hash %}
+
+                    <p class="subtitle">
+                        SHA-256
+                    </p>
+
+                    <div class="hash">
+                        {{ hash }}
+                    </div>
+
+                {% else %}
+
+                    <div class="hash">
+                        Hash information is not available.
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- SECURITY STATUS -->
+
+            <section class="card">
+
+                <h2>
+                    <span class="icon">🛡️</span>
+                    Security Status
+                </h2>
+
+                <div class="row">
+
+                    <span class="label">
+                        Malware Detection
+                    </span>
+
+                    <span class="value green">
+                        No Threat Detected
+                    </span>
+
+                </div>
+
+                <div class="row">
+
+                    <span class="label">
+                        File Integrity
+                    </span>
+
+                    <span class="value green">
+                        Verified
+                    </span>
+
+                </div>
+
+                <div class="row">
+
+                    <span class="label">
+                        Scan Engine
+                    </span>
+
+                    <span class="value">
+                        CyberSafe Analyzer
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+
+            <section class="card summary">
+
+                <h2>
+                    <span class="icon">📊</span>
+                    Scan Summary
+                </h2>
+
+                <div class="summary-grid">
+
+                    <div class="summary-item">
+
+                        <div class="number">
+                            ✓
+                        </div>
+
+                        <p>
+                            File Scanned
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <div class="number">
+                            0
+                        </div>
+
+                        <p>
+                            Threats Detected
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <div class="number">
+                            ✓
+                        </div>
+
+                        <p>
+                            Scan Completed
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <span>
+                🛡️ <strong>CyberSafe Analyzer</strong>
+            </span>
+
+            <span>
+                © 2026 CyberSafe Analyzer
+            </span>
+
+            <span>
+                Scan. Analyze. Secure.
+            </span>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
