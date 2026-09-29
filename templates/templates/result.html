@@ -948,7 +948,7 @@
                     <span>⚑ Risk Level</span>
 
                     <strong class="risk-low">
-                        {{ result.risk }}
+                        {{ result.risk_level }}
                     </strong>
 
                 </div>
@@ -958,7 +958,7 @@
                     <span>🌐 HTTP Status</span>
 
                     <strong>
-                        {{ result.status }}
+                        {{ result.status_code }}
                     </strong>
 
                 </div>
@@ -968,7 +968,7 @@
                     <span>🔐 HTTPS</span>
 
                     <strong>
-                        {% if result.https %}
+                        {% if  %}
                             <span class="status-good">Enabled</span>
                         {% else %}
                             <span class="status-warning">Disabled</span>
@@ -1080,7 +1080,7 @@
                 <div class="https-status">
 
                     <div class="https-icon">
-                        {% if result.https %}
+                        {% if  %}
                             🛡️
                         {% else %}
                             ⚠️
@@ -1089,7 +1089,7 @@
 
                     <div>
 
-                        {% if result.https %}
+                        {% if  %}
 
                             <h3>
                                 HTTPS is Enabled
@@ -1122,7 +1122,7 @@
                     <span>Connection</span>
 
                     <strong>
-                        {% if result.https %}
+                        {% if  %}
                             <span class="status-good">Secure</span>
                         {% else %}
                             <span class="status-warning">Not Secure</span>
