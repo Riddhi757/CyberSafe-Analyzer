@@ -968,7 +968,7 @@
                     <span>🔐 HTTPS</span>
 
                     <strong>
-                        {% if  %}
+                        {% if result.https  %}
                             <span class="status-good">Enabled</span>
                         {% else %}
                             <span class="status-warning">Disabled</span>
@@ -1080,7 +1080,7 @@
                 <div class="https-status">
 
                     <div class="https-icon">
-                        {% if  %}
+                        {% if result.https %}
                             🛡️
                         {% else %}
                             ⚠️
@@ -1089,7 +1089,7 @@
 
                     <div>
 
-                        {% if  %}
+                        {% if result.https  %}
 
                             <h3>
                                 HTTPS is Enabled
@@ -1122,7 +1122,7 @@
                     <span>Connection</span>
 
                     <strong>
-                        {% if  %}
+                        {% if result.https  %}
                             <span class="status-good">Secure</span>
                         {% else %}
                             <span class="status-warning">Not Secure</span>
